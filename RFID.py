@@ -5,7 +5,7 @@ from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
-df = pd.read_excel(r'C:\Users\NGUYEN XUAN TRUONG\OneDrive\Tài liệu\Third year\Embedded Systems\test_GUI\RFID.xlsx')
+df = pd.read_excel(r'RFID.xlsx')
 table_data = df.values.tolist()
 table_headings = df.columns.values.tolist()
 
@@ -86,6 +86,6 @@ while True:
     
     elif event == 'Save':
         df = df.append(values, ignore_index = True)
-        df.to_excel(r'C:\Users\NGUYEN XUAN TRUONG\OneDrive\Tài liệu\Third year\Embedded Systems\test_GUI\RFID.xlsx', index = False)
+        df.to_excel(r'RFID.xlsx', index = False)
 
 window.close()
