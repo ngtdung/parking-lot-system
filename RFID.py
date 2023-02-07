@@ -1,11 +1,10 @@
 import PySimpleGUI as sg
 import pandas as pd
-import threading
 from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
 
-df = pd.read_excel(r'C:\Users\NGUYEN XUAN TRUONG\OneDrive\Tài liệu\Third year\Embedded Systems\test_GUI\RFID.xlsx')
+df = pd.read_excel(r'RFID.xlsx')
 table_data = df.values.tolist()
 table_headings = df.columns.values.tolist()
 
@@ -20,12 +19,11 @@ layout = [
     [sg.Text('Plate number', size =(15,1)), sg.Input(key = 'Plate number', size = (50,4), do_not_clear = True)],
     [sg.Text('Phone number', size =(15,1)), sg.Input(key = 'Phone number', size = (50,4), do_not_clear = True)],
     [sg.Button('Input ID'), sg.Text('ID: '), sg.Input(key= 'Output_ID')],
-    [sg.Button('Save'), sg.Button('Exit')],
+    [sg.Button('Save'), sg.Button('Exit'), sg.Text(key='input_err')],
     
 
     [sg.Table(values = table_data,
-              headings = ['ID', 'Name', 'Age', 'Gender', 'Plate number', 'Phone number'],
-              key = 'Table',
+              headings = ['Name', 'Age', 'Gender', 'Plate number', 'Phone number', 'ID'],
               row_height = 30,
               justification = 'center',
               expand_x = True,
@@ -56,26 +54,33 @@ def finding_ID_window():
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
         elif event == 'Save':
-            validate_id_code(values['ID_code'], finding_ID_window)
-            window['Output_ID'].update(values['ID_code'])
-            break
-        elif event == 'ID_Err':
-            finding_ID_window['ID_Status'].update(values[event])    
+            error_message = validate_id_code(values['ID_code'], finding_ID_window)
+            if error_message:
+                finding_ID_window['ID_Status'].update(error_message)
+            else: 
+                window['Output_ID'].update(values['ID_code'])
+                break
+           
     finding_ID_window.close()
 
 
 def validate_id_code(ID_code,window): #FIND ID WITHOUT NEW WINDOW
     if ID_code == '':
-        window.write_event_value('ID_Err', 'Please enter a valid ID')
+        return 'Please enter a valid ID'
     else:
-        try:
-            value = int(ID_code)
-            id_list = df.values[:,0].tolist()
-            if value in id_list:
-                window.write_event_value('ID_Err', 'ID already existed')
-        except:
-            window.write_event_value('ID_Err', 'Please enter a valid ID')  
+        value = int(ID_code)
+        id_list = df.values[:,5].tolist()
+        if value in id_list:
+            return 'ID already existed'
     
+def check_input(values_input):
+    try:
+        for x in range(len(values_input)):
+            if values_input[x] == '':
+                return False
+        return True
+    except KeyError:
+        return False
 
 while True:
     event, values = window.read()
@@ -85,7 +90,12 @@ while True:
         finding_ID_window()
     
     elif event == 'Save':
-        df = df.append(values, ignore_index = True)
-        df.to_excel(r'C:\Users\NGUYEN XUAN TRUONG\OneDrive\Tài liệu\Third year\Embedded Systems\test_GUI\RFID.xlsx', index = False)
+        input_err = check_input(values)
+        if input_err:
+            df = df.append(values, ignore_index = True)
+            df.to_excel(r'RFID.xlsx', index = False)
+        else:
+            window['input_err'].update('Input Error: One or more information are missing')           
+        
 
 window.close()
