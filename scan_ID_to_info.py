@@ -32,7 +32,10 @@ while True:
         id_list = df.values[:,5].tolist()
         if value in id_list:
             #show information
-            info = df[df['F'] == value]
+            filtered_df = df[df['Output_ID'].notna()]
+            filtered_df = filtered_df.drop(0, axis = 1)
+            row = filtered_df[filtered_df['Output_ID'] == value].iloc[0]
+            info = row.values.tolist()
             window['info'].update(info)
         else:
             window['id_scanned_status'].update('ID is not in list')
