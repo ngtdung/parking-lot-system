@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
 import pandas as pd
-import threading
 from mfrc522 import SimpleMFRC522
 
 reader = SimpleMFRC522()
@@ -24,8 +23,7 @@ layout = [
     
 
     [sg.Table(values = table_data,
-              headings = ['ID', 'Name', 'Age', 'Gender', 'Plate number', 'Phone number'],
-              key = 'Table',
+              headings = ['Name', 'Age', 'Gender', 'Plate number', 'Phone number', 'ID'],
               row_height = 30,
               justification = 'center',
               expand_x = True,
@@ -56,25 +54,24 @@ def finding_ID_window():
         if event == sg.WIN_CLOSED or event == 'Exit':
             break
         elif event == 'Save':
-            validate_id_code(values['ID_code'], finding_ID_window)
-            window['Output_ID'].update(values['ID_code'])
-            break
-        elif event == 'ID_Err':
-            finding_ID_window['ID_Status'].update(values[event])    
+            error_message = validate_id_code(values['ID_code'], finding_ID_window)
+            if error_message:
+                finding_ID_window['ID_Status'].update(error_message)
+            else: 
+                window['Output_ID'].update(values['ID_code'])
+                break
+           
     finding_ID_window.close()
 
 
 def validate_id_code(ID_code,window): #FIND ID WITHOUT NEW WINDOW
     if ID_code == '':
-        window.write_event_value('ID_Err', 'Please enter a valid ID')
+        return 'Please enter a valid ID'
     else:
-        try:
-            value = int(ID_code)
-            id_list = df.values[:,0].tolist()
-            if value in id_list:
-                window.write_event_value('ID_Err', 'ID already existed')
-        except:
-            window.write_event_value('ID_Err', 'Please enter a valid ID')  
+        value = int(ID_code)
+        id_list = df.values[:,0].tolist()
+        if value in id_list:
+            return 'ID already existed'
     
 
 while True:
