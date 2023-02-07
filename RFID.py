@@ -19,7 +19,7 @@ layout = [
     [sg.Text('Plate number', size =(15,1)), sg.Input(key = 'Plate number', size = (50,4), do_not_clear = True)],
     [sg.Text('Phone number', size =(15,1)), sg.Input(key = 'Phone number', size = (50,4), do_not_clear = True)],
     [sg.Button('Input ID'), sg.Text('ID: '), sg.Input(key= 'Output_ID')],
-    [sg.Button('Save'), sg.Button('Exit')],
+    [sg.Button('Save'), sg.Button('Exit'), sg.Text(key='input_err')],
     
 
     [sg.Table(values = table_data,
@@ -73,6 +73,14 @@ def validate_id_code(ID_code,window): #FIND ID WITHOUT NEW WINDOW
         if value in id_list:
             return 'ID already existed'
     
+def check_input(values_input):
+    try:
+        for x in range(len(values_input)):
+            if values_input[x] == '':
+                return False
+        return True
+    except KeyError:
+        return False
 
 while True:
     event, values = window.read()
@@ -82,7 +90,12 @@ while True:
         finding_ID_window()
     
     elif event == 'Save':
-        df = df.append(values, ignore_index = True)
-        df.to_excel(r'RFID.xlsx', index = False)
+        input_err = check_input(values)
+        if input_err:
+            df = df.append(values, ignore_index = True)
+            df.to_excel(r'RFID.xlsx', index = False)
+        else:
+            window['input_err'].update('Input Error: One or more information are missing')           
+        
 
 window.close()
