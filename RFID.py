@@ -69,7 +69,7 @@ def validate_id_code(ID_code,window): #FIND ID WITHOUT NEW WINDOW
         return 'Please enter a valid ID'
     else:
         value = int(ID_code)
-        id_list = df.values[:,0].tolist()
+        id_list = df.values[:,5].tolist()
         if value in id_list:
             return 'ID already existed'
     
