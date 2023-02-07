@@ -46,7 +46,7 @@ def finding_ID_window():
      [sg.Button('Exit')]                                             
                         ]
 
-    finding_ID_window = sg.Window('ID Searching ...', finding_ID_layout, modal=True, size= (250,130))
+    finding_ID_window = sg.Window('ID Searching ...', finding_ID_layout, modal=True, size= (250,130), finalize= True)
 
     finding_ID_window['ID_code'].update(ID_reader)
     while True:
@@ -75,12 +75,19 @@ def validate_id_code(ID_code,window): #FIND ID WITHOUT NEW WINDOW
     
 def check_input(values_input):
     try:
-        for x in range(len(values_input)):
+        inputs_to_check = ['Name', 'Age', 'Gender', 'Plate number', 'Phone number', 'Output_ID']
+        for x in inputs_to_check:
             if values_input[x] == '':
                 return False
         return True
     except KeyError:
         return False
+
+def wipe(values):
+    inputs_to_wipe = ['Name', 'Age', 'Gender', 'Plate number', 'Phone number', 'Output_ID']
+    for i in inputs_to_wipe:
+        window[inputs_to_wipe].update('')
+
 
 while True:
     event, values = window.read()
@@ -92,8 +99,15 @@ while True:
     elif event == 'Save':
         input_err = check_input(values)
         if input_err:
-            df = df.append(values, ignore_index = True)
-            df.to_excel(r'RFID.xlsx', index = False)
+            id_list = df.values[:,5].tolist()
+            if int(values['Output_ID']) in id_list:
+                window['input_err'].update('ID already exists, please input a new ID')
+            else:
+                df = df.append(values, ignore_index = True)
+                df.to_excel(r'RFID.xlsx', index = False)
+                window.write_event_value('Name', '')
+                window.write_event_value('Age', '')
+                
         else:
             window['input_err'].update('Input Error: One or more information are missing')           
         

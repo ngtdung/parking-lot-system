@@ -14,6 +14,6 @@ while True:
     if event == 'create':
         call('python', 'GUI.py')
     elif event == 'scan':
-        call('python', 'Scan_RFID.py')
+        call('python', 'scan_ID_to_info.py')
 
 window.close()
