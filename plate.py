@@ -5,6 +5,7 @@ import pytesseract
 from PIL import Image
 from picamera.array import PiRGBArray
 from picamera import PiCamera
+from RFID import id_list
 
 camera = PiCamera()
 camera.resolution = (640, 480)
