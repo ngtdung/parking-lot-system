@@ -12,10 +12,13 @@ window = sg.Window('RFID', layout)
 
 while True:
     event, values = window.read()
-    if event == 'create':
+    if event == sg.WIN_CLOSED:
+        break
+    elif event == 'create':
         call('python', 'GUI.py')
     elif event == 'scan':
         call('python', 'scan_ID_to_info.py')
     elif event == 'delete':
         call('python', 'Delete_RFID.py')
+
 window.close()

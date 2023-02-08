@@ -34,6 +34,7 @@ def show_info(data, id):
             break
         elif evnt == 'Delete Profile':
             warning_prompt(data, id)
+            break
 
     show_info_window.close()
 
