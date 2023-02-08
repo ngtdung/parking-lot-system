@@ -105,8 +105,12 @@ while True:
             else:
                 df = df.append(values, ignore_index = True)
                 df.to_excel(r'RFID.xlsx', index = False)
-                window.write_event_value('Name', '')
-                window.write_event_value('Age', '')
+                window['Name'].update('')
+                window['Age'].update('')
+                window['Gender'].update('')
+                window['Phone number'].update('')
+                window['Plate number'].update('')
+                window['Output_ID'].update('')
                 
         else:
             window['input_err'].update('Input Error: One or more information are missing')           
