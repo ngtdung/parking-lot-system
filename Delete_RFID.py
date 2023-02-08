@@ -74,4 +74,3 @@ while True:
 
 window.close()
 
-print(df)
