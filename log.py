@@ -12,7 +12,7 @@ def login(text):
     wb.save("Log.xlsx")
 
 def logout(text):
-    for row in ws.iter_rows(min_row=1, min_col=1, max_row=ws.max_row, max_col=1):
+    for row in ws.iter_rows(min_row=2, min_col=1, max_row=ws.max_row, max_col=1):
         for cell in row:
             if cell.value == text:
                 ws.cell(row=cell.row, column=3).value = time.ctime(time.time())
