@@ -7,17 +7,13 @@ wb = load_workbook(filename="Log.xlsx")
 ws = wb["Sheet1"]
 
 def check(id):
-    i = 0
-    r = 0
-    plate = None
     rows = list(ws.iter_rows(min_row=2, max_row=ws.max_row))
     rows = reversed(rows)
     for row in rows:
         if row[0].value == id and row[2].value is None:
-            pos = row[3].coordinate
             r = row[0].row
             break
-    return plate, r
+    return r
 
 def log(id, img_path, r):
     i = 0
