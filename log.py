@@ -13,7 +13,7 @@ def log(id):
     rows = reversed(rows)
     for row in rows:
         if row[0].value == id and row[2].value is None:
-            ws.cell(row=cell.row, column=3).value = time.ctime(time.time())
+            ws.cell(row=row[0].row, column=3).value = time.ctime(time.time())
             i = 1
             break
     if i == 0:
