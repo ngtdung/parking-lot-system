@@ -15,8 +15,7 @@ def check(id):
     for row in rows:
         if row[0].value == id and row[2].value is None:
             pos = row[3].coordinate
-            plate = image_loader.get(pos)
-            r = row
+            r = row[0].row
             break
     return plate, r
 
