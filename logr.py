@@ -8,13 +8,15 @@ ws = wb["Sheet1"]
 
 def check(id):
     r = 0
+    plate_path = None
     rows = list(ws.iter_rows(min_row=2, max_row=ws.max_row))
     rows = reversed(rows)
     for row in rows:
         if row[0].value == id and row[2].value is None:
             r = row[0].row
+            plate_path = ws.cell(row=r, column=4).value
             break
-    return r
+    return r, plate_path
 
 def log(id, img_path, r):
     i = 0
