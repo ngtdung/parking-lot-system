@@ -7,6 +7,7 @@ wb = load_workbook(filename="Log.xlsx")
 ws = wb["Sheet1"]
 
 def check(id):
+    r = 0
     rows = list(ws.iter_rows(min_row=2, max_row=ws.max_row))
     rows = reversed(rows)
     for row in rows:
