@@ -13,11 +13,10 @@ def log(id):
     rows = reversed(rows)
     for row in rows:
         if row[0].value == id and row[2].value is None:
-                row[2].value = time.ctime(time.time())
-                i = 1
-                break
-    if i == 0:            
-        ws.cell(row=ws.max_row+1, column=1).value = id
+            ws.cell(row=row[0].row, column=3).value = time.ctime(time.time())
+            i = 1
+            break
+    if i == 0:
+        ws.cell(row=ws.max_row + 1, column=1).value = id
         ws.cell(row=ws.max_row, column=2).value = time.ctime(time.time())
     wb.save("Log.xlsx")
-    return i
