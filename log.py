@@ -20,11 +20,3 @@ def log(id):
         ws.cell(row=ws.max_row + 1, column=1).value = id
         ws.cell(row=ws.max_row, column=2).value = time.ctime(time.time())
     wb.save("Log.xlsx")
-
-
-
-
-
-
-
-logout("29P188276")
