@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../Plate-detection/.idea/Plate-detection.iml" filepath="$PROJECT_DIR$/../../Plate-detection/.idea/Plate-detection.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/parking-lot-system.iml" filepath="$PROJECT_DIR$/.idea/parking-lot-system.iml" />
     </modules>
   </component>

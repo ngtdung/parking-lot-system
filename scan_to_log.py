@@ -73,6 +73,6 @@ while True:
         elif error_message == 'Daily ticket':
             window['ID_status'].update(error_message)
         img_path = take_picture(ID_reader)
-        pld.plate_retrival(img_path)
+        pld.plate_retrieval(img_path)
         lr.log(ws, ID_reader, img_path, lr.check(ID_reader, ws))
 window.close()
