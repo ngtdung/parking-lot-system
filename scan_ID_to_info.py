@@ -12,8 +12,6 @@ layout = [
     [sg.Button('Check ID of card'), sg.Text('ID: '), sg.Input(key='id_scanned')],
     [sg.Text(key='id_scanned_status')],
     [sg.Button('Exit')],
-
-    [sg.Text(key='info')]
 ]
 
 window = sg.Window('Scan card', layout, finalize=True)

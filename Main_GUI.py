@@ -1,15 +1,17 @@
 import PySimpleGUI as sg
 from subprocess import *
+
+
 sg.theme('LightBlue')
 
 layout = [
     [sg.Button('Create monthly ticket', key= "create_mtl"),
-     sg.Button('Create daily ticket', key= 'create_daily')],
+     sg.Button('Entry/Exit Scan', key= 'create_daily')],
      [sg.Button('Scan ticket', key= "scan"),
      sg.Button('Delete Card', key='delete')]
 ]
 
-window = sg.Window('RFID', layout)
+window = sg.Window('RFID', layout, resizable=True)
 
 while True:
     event, values = window.read()
@@ -22,6 +24,6 @@ while True:
     elif event == 'delete':
         call(['python', 'Delete_RFID.py'])
     elif event == 'create_daily':
-        call(['python', 'create_daily_ticket'])
+        call(['python', 'scan_to_log.py'])
 
 window.close()
