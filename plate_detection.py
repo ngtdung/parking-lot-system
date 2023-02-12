@@ -1,8 +1,6 @@
 import cv2
 import imutils
-from matplotlib import pyplot as plt
 import numpy as np
-from PIL import Image
 
 
 def plate_retrieval(path):

@@ -1,8 +1,8 @@
 import PySimpleGUI as sg
 import pandas as pd
+from mfrc522 import SimpleMFRC522
 
 df = pd.read_excel(r'RFID.xlsx')
-test_ID = 123456789
 
 sg.theme('Light Blue')
 
@@ -18,11 +18,11 @@ window = sg.Window('Scan card', layout, finalize=True)
 
 
 def show_info(data, id):
-    show_info_layout = [[sg.Text('Name: ' + data.loc[df['ID'] == id, 'Name'].iloc[0])],
-                        [sg.Text('Age: {}'.format(data.loc[df['ID'] == id, 'Age'].iloc[0]))],
-                        [sg.Text('Gender: ' + data.loc[df['ID'] == id, 'Gender'].iloc[0])],
-                        [sg.Text('Plate Number: ' + data.loc[df['ID'] == id, 'Plate number'].iloc[0])],
-                        [sg.Text('Phone Number: {}'.format(data.loc[df['ID'] == id, 'Phone number'].iloc[0]))],
+    show_info_layout = [[sg.Text('Name: ' + data.loc[df['Output_ID'] == id, 'Name'].iloc[0])],
+                        [sg.Text('Age: {}'.format(data.loc[df['Output_ID'] == id, 'Age'].iloc[0]))],
+                        [sg.Text('Gender: ' + data.loc[df['Output_ID'] == id, 'Gender'].iloc[0])],
+                        [sg.Text('Plate Number: {}'.format(data.loc[df['Output_ID'] == id, 'Plate number'].iloc[0]))],
+                        [sg.Text('Phone Number: {}'.format(data.loc[df['Output_ID'] == id, 'Phone number'].iloc[0]))],
                         [sg.Text('Card ID: {}'.format(id))],
                         [sg.Button('Delete Profile'),
                          sg.Button('Exit')]]
@@ -48,7 +48,7 @@ def warning_prompt(dataframe, id):
         if warn_event == sg.WIN_CLOSED or warn_event == 'No':
             break
         elif warn_event == 'Yes':
-            dataframe.drop(dataframe[dataframe['ID'] == id].index, inplace=True)
+            dataframe.drop(dataframe[dataframe['Output_ID'] == id].index, inplace=True)
             dataframe.to_excel(r'RFID.xlsx', index=False)
             dataframe.reset_index()
             break
@@ -60,16 +60,17 @@ while True:
     if event == sg.WIN_CLOSED or event == 'Exit':
         break
     elif event == 'Scan ID of card':
-        ID_reader = test_ID
+        reader = SimpleMFRC522()
+        ID_reader, text = reader.read()
         window['id_scanned'].update(ID_reader)
         value = int(ID_reader)
         id_list = df.values[:, 5].tolist()
         if value in id_list:
             # show information
-            filtered_df = df[df['ID'].notna()]
-            row = filtered_df[filtered_df['ID'] == value].iloc[0]
+            filtered_df = df[df['Output_ID'].notna()]
+            row = filtered_df[filtered_df['Output_ID'] == value].iloc[0]
             info = row.values.tolist()
-            show_info(df, test_ID)
+            show_info(df, ID_reader)
         else:
             window['id_scanned_status'].update('ID is not in list')
 
