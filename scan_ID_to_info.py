@@ -1,7 +1,10 @@
+# Import libraries
 import PySimpleGUI as sg
 import pandas as pd
 from mfrc522 import SimpleMFRC522
 
+
+# Function to display the info from the card
 def show_info(data):
     show_info_layout = [[sg.Text('Name: ' + data[0])],
                         [sg.Text('Age: {}'.format(data[1]))],
@@ -19,13 +22,9 @@ def show_info(data):
     show_info_window.close()
 
 
-
-
+# Main function
 def main():
     df = pd.read_excel(r'RFID.xlsx')
-    table_data = df.values.tolist()
-    table_headings = df.columns.values.tolist()
-
     sg.theme('LightBlue')
 
     layout = [
@@ -54,6 +53,7 @@ def main():
             else:
                 window['id_scanned_status'].update('ID not here')
     window.close()
+
 
 if __name__ == '__main__':
     main()

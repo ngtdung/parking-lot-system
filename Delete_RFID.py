@@ -1,3 +1,4 @@
+# Import libraries
 import PySimpleGUI as sg
 import pandas as pd
 from mfrc522 import SimpleMFRC522
@@ -16,7 +17,7 @@ layout = [
 
 window = sg.Window('Scan card', layout, finalize=True)
 
-
+# Function to display card's info
 def show_info(data, id):
     show_info_layout = [[sg.Text('Name: ' + data.loc[df['Output_ID'] == id, 'Name'].iloc[0])],
                         [sg.Text('Age: {}'.format(data.loc[df['Output_ID'] == id, 'Age'].iloc[0]))],
@@ -38,7 +39,7 @@ def show_info(data, id):
 
     show_info_window.close()
 
-
+# Function to delete profile from system
 def warning_prompt(dataframe, id):
     warning_layout = [[sg.Text('Are you sure?')],
                       [sg.Button('Yes'), sg.Button('No')]]
