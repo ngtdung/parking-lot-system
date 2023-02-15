@@ -24,7 +24,7 @@ layout = [
     [sg.Button('Save'), sg.Button('Exit'), sg.Text(key='input_err')],
 
     [sg.Table(values=table_data,
-              headings=table_headings,
+              headings=['Name', 'Age', 'Gender', 'Plate number', ' Phone number', 'Output_ID'],
               row_height=30,
               justification='center',
               expand_x=True,
